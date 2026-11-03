@@ -3,6 +3,10 @@
 #include <bn_fixed_point.h>
 #include <bn_sprite_ptr.h>
 
+#include "bn_sprite_items_sun.h"
+
+#include "movement.h"
+
 /**
  * A center of mass to be orbited around. Position is controlled by the player.
  */
