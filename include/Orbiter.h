@@ -14,6 +14,15 @@
 class Orbiter
 {
 public:
+    // Maximum number of orbiters allowed on the screen
+    static constexpr int MAX_ORBITERS = 30;
+
+    // A scaling factor by which to reduce the force applied when orbiting
+    // Important for numerical stability
+    static constexpr bn::fixed FORCE_SCALE = 10;
+
+    bn::sprite_ptr _sprite;
+
     /**
      * Creates an orbiter.
      *
@@ -21,7 +30,7 @@ public:
      * @param starting_velocity the initial velocity of the Orbiter, {dx, dy}
      * @param center the center to orbit around
      */
-    Orbiter(bn::fixed_point starting_location, bn::fixed_point starting_velocity, Center &center);
+    Orbiter(bn::fixed_point starting_location, bn::fixed_point starting_velocity, Center center);
 
     /**
      * Take a step orbiting around the center.
@@ -29,7 +38,6 @@ public:
     void update();
 
 private:
-    bn::sprite_ptr _sprite;
     bn::fixed_point _velocity;
-    Center &_center;
+    Center _center;
 };

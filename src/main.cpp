@@ -4,41 +4,54 @@
 #include <bn_vector.h>
 
 #include "movement.h"
+#include "check_collision.h"
+
 #include "Center.h"
 #include "Orbiter.h"
-
-// Maximum number of orbiters allowed on the screen
-static constexpr int MAX_ORBITERS = 30;
 
 // Default starting posiiton and velocity for Orbiter
 static constexpr bn::fixed_point ORBITER_START_POSIITON = {0, 0};
 static constexpr bn::fixed_point ORBITER_START_VELOCITY = {0, 5};
 
-int main() {
+int main()
+{
     bn::core::init();
 
     Center center = Center({30, 40}, .05, 2);
-    bn::vector<Orbiter, MAX_ORBITERS> orbiters = {};
-    
-    while(true) {
+    bn::vector<Orbiter, Orbiter::MAX_ORBITERS> orbiters = {};
+
+    while (true)
+    {
         // Add an orbiter when A is pressed if there's room
-        if(bn::keypad::a_pressed()) {
-            if(orbiters.size() < MAX_ORBITERS) {
+        if (bn::keypad::a_pressed())
+        {
+            if (orbiters.size() < Orbiter::MAX_ORBITERS)
+            {
                 orbiters.push_back(Orbiter(ORBITER_START_POSIITON, ORBITER_START_VELOCITY, center));
             }
         }
 
         // Remove an orbiter when B is pressed if there's at least one
-        if (bn::keypad::b_pressed()) {
-            if(orbiters.size() > 0) {
+        if (bn::keypad::b_pressed())
+        {
+            if (orbiters.size() > 0)
+            {
                 orbiters.pop_back();
             }
         }
 
+        if (bn::keypad::start_pressed())
+        {
+            orbiters.clear();
+        }
+
         center.update();
-        for(Orbiter& orbiter : orbiters) {
+        for (Orbiter &orbiter : orbiters)
+        {
             orbiter.update();
         }
+
+        check_collision(orbiters);
 
         bn::core::update();
     }
