@@ -9,6 +9,11 @@ void check_collision(bn::vector<Orbiter, Orbiter::MAX_ORBITERS> &orbiters)
 
     bn::vector<bool, Orbiter::MAX_ORBITERS> index_to_remove = {};
 
+    for (int k = 0; k < orbiters.size(); k++)
+    {
+        index_to_remove.push_back(false);
+    }
+
     // i represents x and j represents y; radius is the same for colliding pairs
     // Use distance formula: (x2 - x1)^2 + (y2 - y1)^2 <= (2r)^2
     for (int i = 0; i < orbiters.size(); i++)
